@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepetim - Zirve Telekom</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1><a href="../index.html">ZirveTelekom</a></h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../index.html">Ana Sayfa</a></li>
+                        <li><a href="phones.html">Telefonlar</a></li>
+                        <li><a href="tablets.html">Tabletler</a></li>
+                        <li><a href="accessories.html">Aksesuarlar</a></li>
+                        <li><a href="computers.html">Bilgisayarlar</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="cart-btn" onclick="location.href='cart.html'"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></button>
+                    <button class="btn-login">Giriş Yap</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Sepetim</h1>
+            <p>Seçtiğiniz ürünleri gözden geçirin</p>
+        </div>
+    </section>
+
+    <section class="cart-page">
+        <div class="container">
+            <div class="cart-content">
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-cart" id="emptyCart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Sepetiniz boş</h3>
+                        <p>Alışverişe başlamak için ürünlerimizi inceleyin</p>
+                        <button class="btn-primary" onclick="location.href='../index.html'">Alışverişe Başla</button>
+                    </div>
+                </div>
+
+                <div class="cart-summary" id="cartSummary" style="display: none;">
+                    <div class="summary-card">
+                        <h3>Sipariş Özeti</h3>
+                        <div class="summary-row">
+                            <span>Ara Toplam:</span>
+                            <span id="subtotal">0₺</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Kargo:</span>
+                            <span id="shipping">Ücretsiz</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Toplam:</span>
+                            <span id="total">0₺</span>
+                        </div>
+                        <button class="btn-primary checkout-btn">Siparişi Tamamla</button>
+                        <button class="btn-outline clear-cart">Sepeti Temizle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ZirveTelekom</h3>
+                    <p>Teknoloji dünyasının lideri</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ZirveTelekom. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/cart.js"></script>
+</body>
+</html>
+
+<style>
+.page-header {
+    background: #2563eb;
+    color: white;
+    padding: 120px 0 60px;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cart-page {
+    padding: 60px 0;
+    min-height: 60vh;
+}
+
+.cart-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+.empty-cart i {
+    font-size: 4rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.empty-cart h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #64748b;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.item-image {
+    width: 80px;
+    height: 80px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    margin-right: 1rem;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.item-price {
+    color: #2563eb;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 1rem;
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.quantity {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    padding: 0.25rem;
+}
+
+.remove-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.summary-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 100px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-row.total {
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-bottom: none;
+    margin-bottom: 2rem;
+}
+
+.checkout-btn {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.clear-cart {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .cart-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .item-image {
+        margin: 0 0 1rem 0;
+    }
+}
+</style>

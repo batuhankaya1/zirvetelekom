@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritabanı Görüntüleyici - Zirve Telekom</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1><a href="../index.html">ZirveTelekom DB</a></h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-login" onclick="location.href='admin.html'">Admin Panel</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="db-viewer">
+        <div class="container">
+            <div class="db-sidebar">
+                <div class="sidebar-menu">
+                    <button class="menu-item active" onclick="showTable('products')">
+                        <i class="fas fa-box"></i> Products
+                    </button>
+                    <button class="menu-item" onclick="showTable('orders')">
+                        <i class="fas fa-shopping-cart"></i> Orders
+                    </button>
+                    <button class="menu-item" onclick="showTable('order_items')">
+                        <i class="fas fa-list"></i> Order Items
+                    </button>
+                    <button class="menu-item" onclick="executeCustomQuery()">
+                        <i class="fas fa-code"></i> Custom Query
+                    </button>
+                </div>
+            </div>
+
+            <div class="db-content">
+                <div class="table-header">
+                    <h2 id="table-title">Products Table</h2>
+                    <div class="table-actions">
+                        <button class="btn-outline" onclick="refreshTable()">
+                            <i class="fas fa-refresh"></i> Yenile
+                        </button>
+                        <button class="btn-outline" onclick="exportTable()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+
+                <div class="query-section" id="query-section" style="display: none;">
+                    <textarea id="custom-query" placeholder="SELECT * FROM products;" rows="4"></textarea>
+                    <button class="btn-primary" onclick="runQuery()">Sorguyu Çalıştır</button>
+                </div>
+
+                <div class="table-container">
+                    <table id="data-table">
+                        <thead id="table-head">
+                            <!-- Headers will be populated dynamically -->
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Data will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-info">
+                    <span id="row-count">0 kayıt</span>
+                    <span id="last-updated">Son güncelleme: -</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/database.js"></script>
+</body>
+</html>
+
+<style>
+.db-viewer {
+    padding: 100px 0 60px;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.db-viewer .container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+}
+
+.db-sidebar {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    height: fit-content;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+.menu-item:hover, .menu-item.active {
+    background: #2563eb;
+    color: white;
+}
+
+.db-content {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.table-header h2 {
+    color: #333;
+    margin: 0;
+}
+
+.table-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.query-section {
+    margin-bottom: 2rem;
+}
+
+.query-section textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 1rem;
+}
+
+.table-container {
+    overflow-x: auto;
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+#data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+#data-table th,
+#data-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+#data-table th {
+    background: #f8fafc;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#data-table tr:hover {
+    background: #f8fafc;
+}
+
+.table-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .db-viewer .container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar-menu {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}
+</style>

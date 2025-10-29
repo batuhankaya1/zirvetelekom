@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürünler - Zirve Telekom</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1>ZirveTelekom</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../index.html">Ana Sayfa</a></li>
+                        <li><a href="products.html">Cihazlar</a></li>
+                        <li><a href="services.html">Hizmetler</a></li>
+                        <li><a href="support.html">Destek</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="cart-btn"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></button>
+                    <button class="btn-login">Giriş Yap</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Tüm Ürünler</h1>
+            <p>En yeni teknoloji ürünlerini keşfedin</p>
+        </div>
+    </section>
+
+    <section class="products-page">
+        <div class="container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Kategori:</label>
+                    <select id="categoryFilter">
+                        <option value="">Tümü</option>
+                        <option value="phone">Telefon</option>
+                        <option value="tablet">Tablet</option>
+                        <option value="accessory">Aksesuar</option>
+                        <option value="laptop">Laptop</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Fiyat:</label>
+                    <select id="priceFilter">
+                        <option value="">Tümü</option>
+                        <option value="0-5000">0-5.000₺</option>
+                        <option value="5000-15000">5.000-15.000₺</option>
+                        <option value="15000-30000">15.000-30.000₺</option>
+                        <option value="30000+">30.000₺+</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <p style="text-align: center; grid-column: 1/-1;">Ürünler yükleniyor...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ZirveTelekom</h3>
+                    <p>Teknoloji dünyasının lideri</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Kategoriler</h4>
+                    <ul>
+                        <li><a href="#">Telefonlar</a></li>
+                        <li><a href="#">Tabletler</a></li>
+                        <li><a href="#">Aksesuarlar</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ZirveTelekom. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
+
+<style>
+.page-header {
+    background: #2563eb;
+    color: white;
+    padding: 120px 0 60px;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.products-page {
+    padding: 60px 0;
+}
+
+.filters {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-group select {
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+}
+</style>

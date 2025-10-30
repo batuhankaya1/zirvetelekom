@@ -1,52 +1,53 @@
-const mysql = require('mysql2/promise');
+const mysql = require("mysql2/promise");
 
 // MySQL connection configuration
 const dbConfig = {
-    host: 'localhost',
-    user: process.env.NODE_ENV === 'production' ? 'zirveapp' : 'root',
-    password: process.env.NODE_ENV === 'production' ? 'StrongPassword123!' : '',
-    database: 'zirvetelekom',
-    charset: 'utf8mb4'
+  host: "localhost",
+  user: process.env.NODE_ENV === "production" ? "zirveapp" : "root",
+  password: process.env.NODE_ENV === "production" ? "StrongPassword123!" : "",
+  database: "zirvetelekom",
+  charset: "utf8mb4",
 };
 
 // Create connection pool
 const pool = mysql.createPool({
-    ...dbConfig,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+  ...dbConfig,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 // Initialize database
 async function initializeDatabase() {
-    try {
-        // Create database if not exists
-        const connection = await mysql.createConnection({
-            host: dbConfig.host,
-            user: dbConfig.user,
-            password: dbConfig.password
-        });
-        
-        await connection.execute(`CREATE DATABASE IF NOT EXISTS ${dbConfig.database} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
-        await connection.end();
-        
-        console.log('MySQL database created/verified');
-        
-        // Create tables
-        await createTables();
-        await insertSampleData();
-        
-    } catch (error) {
-        console.error('Database initialization error:', error);
-        process.exit(1);
-    }
+  try {
+    // Create database if not exists
+    const connection = await mysql.createConnection({
+      host: dbConfig.host,
+      user: dbConfig.user,
+      password: dbConfig.password,
+    });
+
+    await connection.execute(
+      `CREATE DATABASE IF NOT EXISTS ${dbConfig.database} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
+    );
+    await connection.end();
+
+    console.log("MySQL database created/verified");
+
+    // Create tables
+    await createTables();
+    await insertSampleData();
+  } catch (error) {
+    console.error("Database initialization error:", error);
+    process.exit(1);
+  }
 }
 
 // Create database tables
 async function createTables() {
-    try {
-        // Products table
-        await pool.execute(`
+  try {
+    // Products table
+    await pool.execute(`
             CREATE TABLE IF NOT EXISTS products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
@@ -63,8 +64,8 @@ async function createTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         `);
 
-        // Users table
-        await pool.execute(`
+    // Users table
+    await pool.execute(`
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
@@ -74,8 +75,8 @@ async function createTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         `);
 
-        // User profiles table
-        await pool.execute(`
+    // User profiles table
+    await pool.execute(`
             CREATE TABLE IF NOT EXISTS user_profiles (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT UNIQUE,
@@ -90,8 +91,8 @@ async function createTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         `);
 
-        // Orders table
-        await pool.execute(`
+    // Orders table
+    await pool.execute(`
             CREATE TABLE IF NOT EXISTS orders (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
@@ -103,8 +104,8 @@ async function createTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         `);
 
-        // Order items table
-        await pool.execute(`
+    // Order items table
+    await pool.execute(`
             CREATE TABLE IF NOT EXISTS order_items (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 order_id INT,
@@ -116,8 +117,8 @@ async function createTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         `);
 
-        // Cart table for session-based carts
-        await pool.execute(`
+    // Cart table for session-based carts
+    await pool.execute(`
             CREATE TABLE IF NOT EXISTS cart (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 session_id VARCHAR(255) NOT NULL,
@@ -132,61 +133,110 @@ async function createTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         `);
 
-        console.log('MySQL tables created successfully');
-        
-    } catch (error) {
-        console.error('Error creating tables:', error);
-        throw error;
-    }
+    console.log("MySQL tables created successfully");
+  } catch (error) {
+    console.error("Error creating tables:", error);
+    throw error;
+  }
 }
 
 // Insert sample data
 async function insertSampleData() {
-    try {
-        // Insert sample products
-        const [productRows] = await pool.execute('SELECT COUNT(*) as count FROM products');
-        
-        if (productRows[0].count === 0) {
-            const sampleProducts = [
-                ['iPhone 15 Pro', 'phone', 'A17 Pro çip, Titanium tasarım', 49999, 54999, 50, 'YENİ'],
-                ['Samsung Galaxy S24', 'phone', 'AI destekli kamera, 120Hz ekran', 34999, 39999, 30, 'POPÜLER'],
-                ['iPad Air', 'tablet', 'M1 çip, 10.9 inç Liquid Retina ekran', 19999, 24999, 25, 'İNDİRİM'],
-                ['MacBook Air M2', 'laptop', '13.6 inç, M2 çip, 8GB RAM', 39999, 44999, 15, 'YENİ'],
-                ['AirPods Pro', 'accessory', 'Aktif Gürültü Engelleme', 8999, 9999, 40, 'POPÜLER']
-            ];
+  try {
+    // Insert sample products
+    const [productRows] = await pool.execute(
+      "SELECT COUNT(*) as count FROM products"
+    );
 
-            for (const product of sampleProducts) {
-                await pool.execute(`
+    if (productRows[0].count === 0) {
+      const sampleProducts = [
+        [
+          "iPhone 15 Pro",
+          "phone",
+          "A17 Pro çip, Titanium tasarım",
+          49999,
+          54999,
+          50,
+          "YENİ",
+        ],
+        [
+          "Samsung Galaxy S24",
+          "phone",
+          "AI destekli kamera, 120Hz ekran",
+          34999,
+          39999,
+          30,
+          "POPÜLER",
+        ],
+        [
+          "iPad Air",
+          "tablet",
+          "M1 çip, 10.9 inç Liquid Retina ekran",
+          19999,
+          24999,
+          25,
+          "İNDİRİM",
+        ],
+        [
+          "MacBook Air M2",
+          "laptop",
+          "13.6 inç, M2 çip, 8GB RAM",
+          39999,
+          44999,
+          15,
+          "YENİ",
+        ],
+        [
+          "AirPods Pro",
+          "accessory",
+          "Aktif Gürültü Engelleme",
+          8999,
+          9999,
+          40,
+          "POPÜLER",
+        ],
+      ];
+
+      for (const product of sampleProducts) {
+        await pool.execute(
+          `
                     INSERT INTO products (name, category, description, price, old_price, stock, badge)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
-                `, product);
-            }
+                `,
+          product
+        );
+      }
 
-            console.log('Sample products inserted');
-        }
-        
-        // Insert sample users
-        const [userRows] = await pool.execute('SELECT COUNT(*) as count FROM users');
-        
-        if (userRows[0].count === 0) {
-            const sampleUsers = [
-                ['Test Kullanıcı', 'test@example.com', '123456'],
-                ['Admin User', 'admin@zirvetelekom.com', 'admin123'],
-                ['Demo User', 'demo@example.com', 'demo123']
-            ];
+      console.log("Sample products inserted");
+    }
 
-            for (const user of sampleUsers) {
-                await pool.execute(`
+    // Insert sample users
+    const [userRows] = await pool.execute(
+      "SELECT COUNT(*) as count FROM users"
+    );
+
+    if (userRows[0].count === 0) {
+      const sampleUsers = [
+        ["Test Kullanıcı", "test@example.com", "123456"],
+        ["Admin User", "admin@zirvetelekom.com", "admin123"],
+        ["Demo User", "demo@example.com", "demo123"],
+      ];
+
+      for (const user of sampleUsers) {
+        await pool.execute(
+          `
                     INSERT INTO users (name, email, password)
                     VALUES (?, ?, ?)
-                `, user);
-            }
+                `,
+          user
+        );
+      }
 
-            console.log('Sample users inserted');
-        }
-    } catch (error) {
-        console.error('Error inserting sample data:', error);
+      console.log("Sample users inserted");
     }
+  } catch (error) {
+    console.error("Error inserting sample data:", error);
+  }
 }
 
 module.exports = { pool, initializeDatabase };

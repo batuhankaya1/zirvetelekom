@@ -3,12 +3,70 @@ let products = [];
 
 // Initialize admin panel
 document.addEventListener('DOMContentLoaded', function() {
+    checkAdminAuth();
+});
+
+// Check admin authentication
+function checkAdminAuth() {
+    const adminAuth = localStorage.getItem('adminAuth');
+    
+    if (!adminAuth || adminAuth !== 'authenticated') {
+        showAdminLogin();
+        return;
+    }
+    
+    initializeAdminPanel();
+}
+
+// Show admin login form
+function showAdminLogin() {
+    document.body.innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f8fafc;">
+            <div style="background: white; padding: 3rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">Admin Girişi</h2>
+                <form id="admin-login-form">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Kullanıcı Adı:</label>
+                        <input type="text" id="admin-username" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 5px; font-size: 1rem;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Şifre:</label>
+                        <input type="password" id="admin-password" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 5px; font-size: 1rem;">
+                    </div>
+                    <button type="submit" style="width: 100%; padding: 0.75rem; background: #2563eb; color: white; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer;">Giriş Yap</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;"><a href="../index.html" style="color: #2563eb; text-decoration: none;">Ana Sayfaya Dön</a></p>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('admin-login-form').addEventListener('submit', handleAdminLogin);
+}
+
+// Handle admin login
+function handleAdminLogin(e) {
+    e.preventDefault();
+    
+    const username = document.getElementById('admin-username').value;
+    const password = document.getElementById('admin-password').value;
+    
+    // Admin credentials
+    if (username === 'admin' && password === 'admin123') {
+        localStorage.setItem('adminAuth', 'authenticated');
+        location.reload();
+    } else {
+        alert('Geçersiz kullanıcı adı veya şifre!');
+    }
+}
+
+// Initialize admin panel after authentication
+function initializeAdminPanel() {
     loadProductsFromBackend();
     setupEventListeners();
     
     // Show products section by default
     showSection('products');
-});
+}
 
 // Load products from backend
 function loadProductsFromBackend() {
@@ -51,6 +109,8 @@ function showSection(sectionName) {
     
     if (sectionName === 'products') {
         loadProductsFromBackend();
+    } else if (sectionName === 'users') {
+        loadUsers();
     }
 }
 
@@ -355,8 +415,90 @@ function toggleFeatured(id, featured) {
     });
 }
 
+// Load users from backend
+function loadUsers() {
+    fetch('http://localhost:3000/api/users')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(users => {
+        displayUsers(users);
+    })
+    .catch(error => {
+        console.error('Error loading users:', error);
+        showNotification('Kullanıcılar yüklenemedi: ' + error.message, 'error');
+    });
+}
+
+// Display users in table
+function displayUsers(users) {
+    const tbody = document.getElementById('users-tbody');
+    tbody.innerHTML = '';
+    
+    if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Henüz kullanıcı bulunmamaktadır.</td></tr>';
+        return;
+    }
+    
+    users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${formatDate(user.createdAt)}</td>
+            <td>
+                <button class="btn-delete" onclick="deleteUser(${user.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// Delete user
+function deleteUser(id) {
+    if (confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
+        fetch(`http://localhost:3000/api/users/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            showNotification(data.message, 'success');
+            loadUsers();
+        })
+        .catch(error => {
+            console.error('Delete error:', error);
+            showNotification('Silme hatası: ' + error.message, 'error');
+        });
+    }
+}
+
+// Format date helper
+function formatDate(dateString) {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleString('tr-TR');
+}
+
+// Admin logout
+function adminLogout() {
+    localStorage.removeItem('adminAuth');
+    location.reload();
+}
+
 // Make functions global
 window.showSection = showSection;
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
 window.toggleFeatured = toggleFeatured;
+window.deleteUser = deleteUser;
+window.adminLogout = adminLogout;

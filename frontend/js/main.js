@@ -1,5 +1,4 @@
-// Shopping Cart
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+// Shopping Cart - now handled by cart.js
 
 // DOM Elements
 const cartCountElement = document.querySelector('.cart-count');
@@ -17,51 +16,42 @@ function loadAdminProducts() {
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('add-to-cart')) {
         const productCard = e.target.closest('.product-card');
-        const productId = productCard.dataset.id;
-        const productName = productCard.querySelector('h3').textContent;
-        const productPriceText = productCard.querySelector('.new-price').textContent;
-        const productPrice = parseInt(productPriceText.replace(/[^0-9]/g, ''));
+        let productId = productCard ? productCard.dataset.id : e.target.dataset.productId;
         
-        // Check if item already exists in cart
-        const existingItem = cart.find(item => item.id === productId);
-        
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({
-                id: productId,
-                name: productName,
-                price: productPrice,
-                quantity: 1
-            });
+        if (!productId) {
+            console.error('Product ID not found');
+            return;
         }
         
-        saveCart();
-        updateCartCount();
+        productId = parseInt(productId);
+        console.log('Clicking add to cart for product:', productId);
         
-        // Visual feedback
-        e.target.textContent = 'Eklendi!';
-        e.target.style.background = '#10b981';
-        
-        setTimeout(() => {
-            e.target.textContent = 'Sepete Ekle';
-            e.target.style.background = '';
-        }, 1500);
+        // Use the global addToCart function from cart.js
+        if (window.addToCart) {
+            window.addToCart(productId, 1);
+            
+            // Visual feedback
+            e.target.textContent = 'Eklendi!';
+            e.target.style.background = '#10b981';
+            
+            setTimeout(() => {
+                e.target.textContent = 'Sepete Ekle';
+                e.target.style.background = '';
+            }, 1500);
+        } else {
+            console.error('addToCart function not available');
+        }
     }
 });
 
 // Update cart count
 function updateCartCount() {
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     if (cartCountElement) {
-        cartCountElement.textContent = totalItems;
+        cartCountElement.textContent = '0';
     }
 }
 
-// Save cart to localStorage
-function saveCart() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-}
+
 
 // Product filtering (for products page)
 const categoryFilter = document.getElementById('categoryFilter');
@@ -135,27 +125,43 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Initialize cart count on page load
 document.addEventListener('DOMContentLoaded', function() {
-    updateCartCount();
+    console.log('DOM loaded, path:', window.location.pathname);
     
-    // Load products if on category pages
-    if (window.location.pathname.includes('/pages/')) {
-        if (window.location.pathname.includes('products.html')) {
-            loadAllProducts();
-        } else {
-            loadCategoryProducts();
+    // Initialize cart system
+    setTimeout(() => {
+        if (window.addToCart) {
+            console.log('Cart system ready');
         }
-    }
+        if (window.updateCartCount) {
+            window.updateCartCount();
+        }
+    }, 500);
     
-    // Load featured products on homepage
-    if (window.location.pathname === '/' || window.location.pathname.includes('index.html')) {
-        loadFeaturedProducts();
-    }
+    checkUserAuth();
+    
+    // Force load products after DOM is ready
+    setTimeout(() => {
+        if (window.location.pathname.includes('/pages/')) {
+            if (window.location.pathname.includes('products.html')) {
+                loadAllProducts();
+            } else {
+                loadCategoryProducts();
+            }
+        } else {
+            // Homepage - always load featured products
+            console.log('Loading homepage products');
+            loadFeaturedProducts();
+        }
+    }, 100);
 });
 
 // Load featured products for homepage
 function loadFeaturedProducts() {
-    fetch('http://localhost:3000/api/products/featured')
+    console.log('Loading featured products...');
+    
+    fetch('/api/products/featured')
     .then(response => {
+        console.log('Response status:', response.status);
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
         }
@@ -167,10 +173,9 @@ function loadFeaturedProducts() {
     })
     .catch(error => {
         console.error('Error loading featured products:', error);
-        // Show empty state instead of fallback
         const featuredGrid = document.querySelector('.featured-products .products-grid');
         if (featuredGrid) {
-            featuredGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Henüz öne çıkarılan ürün bulunmamaktadır.</p>';
+            featuredGrid.innerHTML = `<p style="text-align: center; grid-column: 1/-1; color: #ef4444;">Hata: ${error.message}</p>`;
         }
     });
 }
@@ -191,6 +196,7 @@ function updateFeaturedProductsGrid(products) {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         productCard.dataset.id = product.id;
+        productCard.dataset.category = product.category;
         productCard.dataset.name = product.name;
         productCard.dataset.price = product.price;
         
@@ -203,7 +209,7 @@ function updateFeaturedProductsGrid(products) {
                 ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
                 <span class="new-price">${formatPrice(product.price)}</span>
             </div>
-            <button class="btn-primary add-to-cart">Sepete Ekle</button>
+            <button class="btn-primary add-to-cart" data-product-id="${product.id}">Sepete Ekle</button>
         `;
         
         featuredGrid.appendChild(productCard);
@@ -215,31 +221,39 @@ function loadCategoryProducts() {
     const currentPage = window.location.pathname;
     let category = '';
     
+    console.log('Current page path:', currentPage);
+    
     if (currentPage.includes('phones.html')) category = 'phone';
     else if (currentPage.includes('tablets.html')) category = 'tablet';
     else if (currentPage.includes('accessories.html')) category = 'accessory';
-    else if (currentPage.includes('computers.html')) category = 'computer';
+    else if (currentPage.includes('computers.html')) category = 'laptop';
+    
+    console.log('Detected category:', category);
     
     if (category) {
-        // Try to load from backend first
-        fetch(`http://localhost:3000/api/products?category=${category}`)
+        console.log('Fetching products for category:', category);
+        fetch(`/api/products?category=${category}`)
         .then(response => {
+            console.log('Category API response status:', response.status);
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
             return response.json();
         })
         .then(products => {
+            console.log('Category products received:', products.length, 'products');
+            console.log('Products data:', products);
             updateProductGrid(products);
         })
         .catch(error => {
-            console.error('Error loading products:', error);
-            // Show loading error message
+            console.error('Error loading category products:', error);
             const productsGrid = document.querySelector('.products-grid');
             if (productsGrid) {
-                productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: #ef4444;">Ürünler yüklenirken hata oluştu. Lütfen sayfayı yenileyin.</p>';
+                productsGrid.innerHTML = `<p style="text-align: center; grid-column: 1/-1; color: #ef4444;">Hata: ${error.message}</p>`;
             }
         });
+    } else {
+        console.log('No category detected for path:', currentPage);
     }
 }
 
@@ -259,6 +273,7 @@ function updateProductGrid(products) {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         productCard.dataset.id = product.id;
+        productCard.dataset.category = product.category;
         productCard.dataset.name = product.name;
         productCard.dataset.price = product.price;
         
@@ -271,7 +286,7 @@ function updateProductGrid(products) {
                 ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
                 <span class="new-price">${formatPrice(product.price)}</span>
             </div>
-            <button class="btn-primary add-to-cart">Sepete Ekle</button>
+            <button class="btn-primary add-to-cart" data-product-id="${product.id}">Sepete Ekle</button>
         `;
         
         productsGrid.appendChild(productCard);
@@ -280,8 +295,11 @@ function updateProductGrid(products) {
 
 // Load all products for products page
 function loadAllProducts() {
-    fetch('http://localhost:3000/api/products')
+    console.log('Loading all products...');
+    
+    fetch('/api/products')
     .then(response => {
+        console.log('All products response status:', response.status);
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
         }
@@ -297,6 +315,17 @@ function loadAllProducts() {
             productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: #ef4444;">Ürünler yüklenirken hata oluştu. Lütfen sayfayı yenileyin.</p>';
         }
     });
+}
+
+// Check user authentication
+function checkUserAuth() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const authBtn = document.getElementById('auth-btn');
+    
+    if (user && authBtn) {
+        authBtn.textContent = user.name;
+        authBtn.onclick = () => location.href = 'pages/profile.html';
+    }
 }
 
 // Format price helper

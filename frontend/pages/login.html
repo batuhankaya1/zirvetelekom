@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - Zirve Telekom</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1><a href="../index.html">ZirveTelekom</a></h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../index.html">Ana Sayfa</a></li>
+                        <li><a href="phones.html">Telefonlar</a></li>
+                        <li><a href="tablets.html">Tabletler</a></li>
+                        <li><a href="accessories.html">Aksesuarlar</a></li>
+                        <li><a href="computers.html">Bilgisayarlar</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-form">
+                    <h2>Giriş Yap</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre:</label>
+                            <input type="password" id="password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Giriş Yap</button>
+                    </form>
+                    <p class="auth-link">Hesabınız yok mu? <a href="register.html">Kayıt Ol</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/auth.js"></script>
+</body>
+</html>
+
+<style>
+.auth-section {
+    padding: 120px 0 60px;
+    min-height: 100vh;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.auth-form {
+    background: white;
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-form h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-link a {
+    color: #2563eb;
+    text-decoration: none;
+}
+</style>

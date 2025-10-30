@@ -1,75 +1,73 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/database');
+const { pool } = require('../config/mysql');
 
 // Sample orders data (fallback)
 let orders = [];
 
 // POST create order
-router.post('/', (req, res) => {
-    const { userId, products, totalAmount, shippingAddress } = req.body;
-    
-    const query = `
-        INSERT INTO orders (user_id, total_amount, shipping_address, status)
-        VALUES (?, ?, ?, 'pending')
-    `;
-    
-    db.run(query, [userId, totalAmount, shippingAddress], function(err) {
-        if (err) {
-            return res.status(500).json({ message: 'Database error', error: err.message });
-        }
+router.post('/', async (req, res) => {
+    try {
+        const { userId, products, totalAmount, shippingAddress } = req.body;
         
-        const orderId = this.lastID;
+        const [result] = await pool.execute(`
+            INSERT INTO orders (user_id, total_amount, shipping_address, status)
+            VALUES (?, ?, ?, 'pending')
+        `, [userId, totalAmount, shippingAddress]);
+        
+        const orderId = result.insertId;
         
         // Insert order items
         if (products && products.length > 0) {
-            const itemQuery = 'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)';
-            const stmt = db.prepare(itemQuery);
-            
-            products.forEach(product => {
-                stmt.run([orderId, product.id, product.quantity, product.price]);
-            });
-            
-            stmt.finalize();
+            for (const product of products) {
+                await pool.execute(
+                    'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)',
+                    [orderId, product.id, product.quantity, product.price]
+                );
+            }
         }
         
         res.status(201).json({ message: 'Sipariş oluşturuldu', orderId: orderId });
-    });
+    } catch (error) {
+        res.status(500).json({ message: 'Database error', error: error.message });
+    }
 });
 
 // GET all orders
-router.get('/', (req, res) => {
-    db.all('SELECT * FROM orders ORDER BY created_at DESC', [], (err, rows) => {
-        if (err) {
-            return res.status(500).json({ message: 'Database error', error: err.message });
-        }
+router.get('/', async (req, res) => {
+    try {
+        const [rows] = await pool.execute('SELECT * FROM orders ORDER BY created_at DESC');
         res.json(rows);
-    });
+    } catch (error) {
+        res.status(500).json({ message: 'Database error', error: error.message });
+    }
 });
 
 // GET user orders
-router.get('/user/:userId', (req, res) => {
-    const userId = parseInt(req.params.userId);
-    db.all('SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC', [userId], (err, rows) => {
-        if (err) {
-            return res.status(500).json({ message: 'Database error', error: err.message });
-        }
+router.get('/user/:userId', async (req, res) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        const [rows] = await pool.execute('SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC', [userId]);
         res.json(rows);
-    });
+    } catch (error) {
+        res.status(500).json({ message: 'Database error', error: error.message });
+    }
 });
 
 // GET single order
-router.get('/:id', (req, res) => {
-    const orderId = parseInt(req.params.id);
-    db.get('SELECT * FROM orders WHERE id = ?', [orderId], (err, row) => {
-        if (err) {
-            return res.status(500).json({ message: 'Database error', error: err.message });
-        }
-        if (!row) {
+router.get('/:id', async (req, res) => {
+    try {
+        const orderId = parseInt(req.params.id);
+        const [rows] = await pool.execute('SELECT * FROM orders WHERE id = ?', [orderId]);
+        
+        if (rows.length === 0) {
             return res.status(404).json({ message: 'Sipariş bulunamadı' });
         }
-        res.json(row);
-    });
+        
+        res.json(rows[0]);
+    } catch (error) {
+        res.status(500).json({ message: 'Database error', error: error.message });
+    }
 });
 
 module.exports = router;

@@ -3,6 +3,14 @@ let currentTable = 'products';
 
 // Initialize database viewer
 document.addEventListener('DOMContentLoaded', function() {
+    const adminAuth = localStorage.getItem('adminAuth');
+    
+    if (!adminAuth || adminAuth !== 'authenticated') {
+        alert('Bu sayfaya erişim için admin girişi gereklidir.');
+        window.location.href = 'admin.html';
+        return;
+    }
+    
     showTable('products');
 });
 
@@ -46,6 +54,9 @@ function loadTableData(tableName) {
             break;
         case 'order_items':
             endpoint = 'http://localhost:3000/api/order-items';
+            break;
+        case 'users':
+            endpoint = 'http://localhost:3000/api/users';
             break;
         default:
             console.error('Unknown table:', tableName);

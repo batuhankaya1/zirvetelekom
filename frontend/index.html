@@ -1,177 +1,286 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zirve Telekom - Teknoloji Mağazası</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <header class="header">
-        <div class="container">
-            <div class="nav-wrapper">
-                <div class="logo">
-                    <h1><a href="index.html">ZirveTelekom</a></h1>
-                </div>
-                <nav class="nav">
-                    <ul>
-                        <li><a href="index.html">Ana Sayfa</a></li>
-                        <li><a href="pages/phones.html">Telefonlar</a></li>
-                        <li><a href="pages/tablets.html">Tabletler</a></li>
-                        <li><a href="pages/accessories.html">Aksesuarlar</a></li>
-                        <li><a href="pages/computers.html">Bilgisayarlar</a></li>
-                    </ul>
-                </nav>
-                <div class="header-actions">
-                    <button class="cart-btn" onclick="location.href='pages/cart.html'"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></button>
-                    <button class="btn-login">Giriş Yap</button>
-                </div>
-            </div>
+      <div class="container">
+        <div class="nav-wrapper">
+          <div class="logo">
+            <h1><a href="index.html">ZirveTelekom</a></h1>
+          </div>
+          <nav class="nav">
+            <ul>
+              <li><a href="http://localhost:3000/">Ana Sayfa</a></li>
+              <li>
+                <a href="http://localhost:3000/pages/phones.html">Telefonlar</a>
+              </li>
+              <li>
+                <a href="http://localhost:3000/pages/tablets.html">Tabletler</a>
+              </li>
+              <li>
+                <a href="http://localhost:3000/pages/accessories.html"
+                  >Aksesuarlar</a
+                >
+              </li>
+              <li>
+                <a href="http://localhost:3000/pages/computers.html"
+                  >Bilgisayarlar</a
+                >
+              </li>
+            </ul>
+          </nav>
+          <div class="header-actions">
+            <button
+              class="cart-btn"
+              onclick="location.href='http://localhost:3000/pages/cart.html'"
+            >
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">0</span>
+            </button>
+            <button
+              class="btn-login"
+              id="auth-btn"
+              onclick="location.href='http://localhost:3000/pages/login.html'"
+            >
+              Giriş Yap
+            </button>
+          </div>
         </div>
+      </div>
     </header>
 
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>En Yeni Teknoloji Ürünleri</h1>
-                    <p>Akıllı telefonlar, tabletler ve teknoloji aksesuarları için tek adres</p>
-                    <div class="hero-buttons">
-                        <button class="btn-primary" onclick="location.href='pages/products.html'">Ürünleri İncele</button>
-                        <button class="btn-secondary">Kampanyalar</button>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="hero-graphic"></div>
-                </div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1>En Yeni Teknoloji Ürünleri</h1>
+            <p>
+              Akıllı telefonlar, tabletler ve teknoloji aksesuarları için tek
+              adres
+            </p>
+            <div class="hero-buttons">
+              <button
+                class="btn-primary"
+                onclick="location.href='http://localhost:3000/pages/products.html'"
+              >
+                Ürünleri İncele
+              </button>
+              <button class="btn-secondary">Kampanyalar</button>
             </div>
+          </div>
+          <div class="hero-image">
+            <div class="hero-graphic"></div>
+          </div>
         </div>
+      </div>
     </section>
 
     <section class="categories">
-        <div class="container">
-            <h2>Ürün Kategorileri</h2>
-            <div class="categories-grid">
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Akıllı Telefonlar</h3>
-                    <p>En son model iPhone, Samsung, Xiaomi</p>
-                    <button class="btn-outline" onclick="location.href='pages/phones.html'">İncele</button>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-tablet-alt"></i>
-                    </div>
-                    <h3>Tabletler</h3>
-                    <p>iPad, Samsung Galaxy Tab ve daha fazlası</p>
-                    <button class="btn-outline" onclick="location.href='pages/tablets.html'">İncele</button>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-headphones"></i>
-                    </div>
-                    <h3>Aksesuarlar</h3>
-                    <p>Kulaklık, kılıf, şarj aleti ve daha fazlası</p>
-                    <button class="btn-outline" onclick="location.href='pages/accessories.html'">İncele</button>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">
-                        <i class="fas fa-laptop"></i>
-                    </div>
-                    <h3>Bilgisayarlar</h3>
-                    <p>Laptop, masaüstü ve gaming bilgisayarlar</p>
-                    <button class="btn-outline" onclick="location.href='pages/computers.html'">İncele</button>
-                </div>
+      <div class="container">
+        <h2>Ürün Kategorileri</h2>
+        <div class="categories-grid">
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-mobile-alt"></i>
             </div>
+            <h3>Akıllı Telefonlar</h3>
+            <p>En son model iPhone, Samsung, Xiaomi</p>
+            <button
+              class="btn-outline"
+              onclick="location.href='http://localhost:3000/pages/phones.html'"
+            >
+              İncele
+            </button>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-tablet-alt"></i>
+            </div>
+            <h3>Tabletler</h3>
+            <p>iPad, Samsung Galaxy Tab ve daha fazlası</p>
+            <button
+              class="btn-outline"
+              onclick="location.href='http://localhost:3000/pages/tablets.html'"
+            >
+              İncele
+            </button>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-headphones"></i>
+            </div>
+            <h3>Aksesuarlar</h3>
+            <p>Kulaklık, kılıf, şarj aleti ve daha fazlası</p>
+            <button
+              class="btn-outline"
+              onclick="location.href='http://localhost:3000/pages/accessories.html'"
+            >
+              İncele
+            </button>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-laptop"></i>
+            </div>
+            <h3>Bilgisayarlar</h3>
+            <p>Laptop, masaüstü ve gaming bilgisayarlar</p>
+            <button
+              class="btn-outline"
+              onclick="location.href='http://localhost:3000/pages/computers.html'"
+            >
+              İncele
+            </button>
+          </div>
         </div>
+      </div>
     </section>
 
     <section class="featured-products">
-        <div class="container">
-            <h2>Öne Çıkan Ürünler</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-badge">YENİ</div>
-                    <div class="product-image"></div>
-                    <h3>iPhone 15 Pro</h3>
-                    <div class="price">
-                        <span class="old-price">54.999₺</span>
-                        <span class="new-price">49.999₺</span>
-                    </div>
-                    <button class="btn-primary add-to-cart">Sepete Ekle</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-badge">POPÜLER</div>
-                    <div class="product-image"></div>
-                    <h3>Samsung Galaxy S24</h3>
-                    <div class="price">
-                        <span class="old-price">39.999₺</span>
-                        <span class="new-price">34.999₺</span>
-                    </div>
-                    <button class="btn-primary add-to-cart">Sepete Ekle</button>
-                </div>
-                <div class="product-card">
-                    <div class="product-badge">İNDİRİM</div>
-                    <div class="product-image"></div>
-                    <h3>iPad Air</h3>
-                    <div class="price">
-                        <span class="old-price">24.999₺</span>
-                        <span class="new-price">19.999₺</span>
-                    </div>
-                    <button class="btn-primary add-to-cart">Sepete Ekle</button>
-                </div>
-            </div>
+      <div class="container">
+        <h2>Öne Çıkan Ürünler</h2>
+        <div class="products-grid">
+          <p style="text-align: center; grid-column: 1/-1">
+            Öne çıkarılan ürünler yükleniyor...
+          </p>
         </div>
+      </div>
     </section>
 
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>ZirveTelekom</h3>
-                    <p>Teknoloji dünyasının lideri</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Kategoriler</h4>
-                    <ul>
-                        <li><a href="#">Telefonlar</a></li>
-                        <li><a href="#">Tabletler</a></li>
-                        <li><a href="#">Aksesuarlar</a></li>
-                        <li><a href="#">Bilgisayarlar</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Müşteri Hizmetleri</h4>
-                    <ul>
-                        <li><a href="#">İletişim</a></li>
-                        <li><a href="#">Kargo Takibi</a></li>
-                        <li><a href="#">İade & Değişim</a></li>
-                        <li><a href="#">Garanti</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>İletişim</h4>
-                    <ul>
-                        <li><i class="fas fa-phone"></i> 444 0 000</li>
-                        <li><i class="fas fa-envelope"></i> info@zirvetelekom.com.tr</li>
-                        <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
-                    </ul>
-                </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>ZirveTelekom</h3>
+            <p>Teknoloji dünyasının lideri</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 ZirveTelekom. Tüm hakları saklıdır.</p>
-            </div>
+          </div>
+          <div class="footer-section">
+            <h4>Kategoriler</h4>
+            <ul>
+              <li><a href="#">Telefonlar</a></li>
+              <li><a href="#">Tabletler</a></li>
+              <li><a href="#">Aksesuarlar</a></li>
+              <li><a href="#">Bilgisayarlar</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Müşteri Hizmetleri</h4>
+            <ul>
+              <li><a href="#">İletişim</a></li>
+              <li><a href="#">Kargo Takibi</a></li>
+              <li><a href="#">İade & Değişim</a></li>
+              <li><a href="#">Garanti</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>İletişim</h4>
+            <ul>
+              <li><i class="fas fa-phone"></i> 444 0 000</li>
+              <li><i class="fas fa-envelope"></i> info@zirvetelekom.com.tr</li>
+              <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
+            </ul>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 ZirveTelekom. Tüm hakları saklıdır.</p>
+        </div>
+      </div>
     </footer>
 
+    <script src="js/cart.js"></script>
     <script src="js/main.js"></script>
-</body>
+    <script src="js/animations.js"></script>
+
+    <script>
+      // Load featured products
+      function loadFeaturedProducts() {
+        fetch("/api/products?" + new Date().getTime())
+          .then((r) => r.json())
+          .then((products) => {
+            const grid = document.querySelector(
+              ".featured-products .products-grid"
+            );
+            if (products.length === 0) {
+              grid.innerHTML =
+                '<p style="text-align: center; grid-column: 1/-1;">Henüz ürün eklenmemiş</p>';
+              return;
+            }
+
+            // Show featured products only
+            const featuredProducts = products.filter((p) => p.featured === 1);
+
+            if (featuredProducts.length === 0) {
+              grid.innerHTML =
+                '<div style="text-align: center; grid-column: 1/-1; padding: 2rem;"><h3>Öne Çıkarılan Ürün Yok</h3><p></p></div>';
+              return;
+            }
+
+            const displayProducts = featuredProducts;
+
+            grid.innerHTML = "";
+            displayProducts.forEach((p) => {
+              const card = document.createElement("div");
+              card.className = "product-card";
+              card.dataset.id = p.id;
+              card.innerHTML = `
+                        ${
+                          p.badge
+                            ? `<div class="product-badge">${p.badge}</div>`
+                            : ""
+                        }
+                        <div class="product-image"></div>
+                        <h3>${p.name}</h3>
+                        <p>${p.description || ""}</p>
+                        <div class="price">
+                            ${
+                              p.oldPrice
+                                ? `<span class="old-price">${p.oldPrice}₺</span>`
+                                : ""
+                            }
+                            <span class="new-price">${p.price}₺</span>
+                        </div>
+                        <button class="btn-primary add-to-cart" data-product-id="${
+                          p.id
+                        }">Sepete Ekle</button>
+                    `;
+              grid.appendChild(card);
+            });
+          })
+          .catch((e) => {
+            document.querySelector(
+              ".featured-products .products-grid"
+            ).innerHTML =
+              '<p style="text-align: center; grid-column: 1/-1;">Ürünler yüklenemedi: ' +
+              e.message +
+              "</p>";
+          });
+      }
+
+      // Load products when page loads
+      setTimeout(loadFeaturedProducts, 500);
+
+      // Refresh products every 30 seconds
+      setInterval(loadFeaturedProducts, 30000);
+
+      // Refresh when page becomes visible again
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) {
+          loadFeaturedProducts();
+        }
+      });
+    </script>
+  </body>
 </html>

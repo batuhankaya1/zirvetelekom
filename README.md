@@ -43,6 +43,7 @@ open frontend/index.html
 ```bash
 cd backend
 npm install
+# MySQL kurulumu için MYSQL_SETUP.md dosyasını inceleyin
 npm run dev
 ```
 
@@ -64,6 +65,7 @@ npm run dev
 **Backend:**
 - Node.js
 - Express.js
+- MySQL2
 - CORS
 - RESTful API
 

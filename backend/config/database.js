@@ -74,6 +74,45 @@ function initializeDatabase() {
             FOREIGN KEY (product_id) REFERENCES products (id)
         )
     `);
+
+    // Create users table
+    db.run(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `, (err) => {
+        if (err) {
+            console.error('Error creating users table:', err.message);
+        } else {
+            console.log('Users table ready');
+        }
+    });
+
+    // Create user_profiles table
+    db.run(`
+        CREATE TABLE IF NOT EXISTS user_profiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER UNIQUE,
+            first_name TEXT,
+            last_name TEXT,
+            phone TEXT,
+            birth_date DATE,
+            gender TEXT,
+            address TEXT,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    `, (err) => {
+        if (err) {
+            console.error('Error creating user_profiles table:', err.message);
+        } else {
+            console.log('User profiles table ready');
+        }
+    });
 }
 
 // Insert sample data if products table is empty

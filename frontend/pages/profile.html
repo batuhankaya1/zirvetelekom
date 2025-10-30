@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilim - Zirve Telekom</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1><a href="../index.html">ZirveTelekom</a></h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="../index.html">Ana Sayfa</a></li>
+                        <li><a href="phones.html">Telefonlar</a></li>
+                        <li><a href="tablets.html">Tabletler</a></li>
+                        <li><a href="accessories.html">Aksesuarlar</a></li>
+                        <li><a href="computers.html">Bilgisayarlar</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="cart-btn" onclick="location.href='cart.html'"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></button>
+                    <button class="btn-logout" onclick="logout()">Çıkış Yap</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 id="user-name">Kullanıcı</h3>
+                        <p id="user-email">email@example.com</p>
+                    </div>
+                    <div class="profile-menu">
+                        <button class="menu-item active" onclick="showProfileSection('personal')">
+                            <i class="fas fa-user"></i> Kişisel Bilgiler
+                        </button>
+                        <button class="menu-item" onclick="showProfileSection('orders')">
+                            <i class="fas fa-shopping-bag"></i> Siparişlerim
+                        </button>
+                        <button class="menu-item" onclick="showProfileSection('settings')">
+                            <i class="fas fa-cog"></i> Ayarlar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="profile-content">
+                    <!-- Personal Info Section -->
+                    <div id="personal-section" class="profile-section-content active">
+                        <h2>Kişisel Bilgiler</h2>
+                        <form id="profile-form" class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Ad:</label>
+                                    <input type="text" id="first-name" placeholder="Adınız">
+                                </div>
+                                <div class="form-group">
+                                    <label>Soyad:</label>
+                                    <input type="text" id="last-name" placeholder="Soyadınız">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Telefon:</label>
+                                <input type="tel" id="phone" placeholder="0555 123 45 67">
+                            </div>
+                            <div class="form-group">
+                                <label>Doğum Tarihi:</label>
+                                <input type="date" id="birth-date">
+                            </div>
+                            <div class="form-group">
+                                <label>Cinsiyet:</label>
+                                <select id="gender">
+                                    <option value="">Seçiniz</option>
+                                    <option value="male">Erkek</option>
+                                    <option value="female">Kadın</option>
+                                    <option value="other">Diğer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Adres:</label>
+                                <textarea id="address" rows="3" placeholder="Adresinizi giriniz"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">Bilgileri Güncelle</button>
+                        </form>
+                    </div>
+
+                    <!-- Orders Section -->
+                    <div id="orders-section" class="profile-section-content">
+                        <h2>Siparişlerim</h2>
+                        <div class="orders-list">
+                            <p>Henüz siparişiniz bulunmamaktadır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Settings Section -->
+                    <div id="settings-section" class="profile-section-content">
+                        <h2>Hesap Ayarları</h2>
+                        <form id="password-form" class="profile-form">
+                            <div class="form-group">
+                                <label>Mevcut Şifre:</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Yeni Şifre:</label>
+                                <input type="password" id="new-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Yeni Şifre Tekrar:</label>
+                                <input type="password" id="confirm-password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Şifreyi Değiştir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/profile.js"></script>
+</body>
+</html>
+
+<style>
+.profile-section {
+    padding: 120px 0 60px;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.profile-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile-sidebar {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    height: fit-content;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.profile-info {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    background: #2563eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+    font-size: 2rem;
+}
+
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+.menu-item:hover, .menu-item.active {
+    background: #2563eb;
+    color: white;
+}
+
+.profile-content {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.profile-section-content {
+    display: none;
+}
+
+.profile-section-content.active {
+    display: block;
+}
+
+.profile-form {
+    max-width: 600px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.btn-logout {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-menu {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

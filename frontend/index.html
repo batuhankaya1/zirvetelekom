@@ -214,6 +214,13 @@
             const grid = document.querySelector(
               ".featured-products .products-grid"
             );
+            
+            // Check if products is array
+            if (!Array.isArray(products)) {
+              grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">API hatası: ' + JSON.stringify(products) + '</p>';
+              return;
+            }
+            
             if (products.length === 0) {
               grid.innerHTML =
                 '<p style="text-align: center; grid-column: 1/-1;">Henüz ürün eklenmemiş</p>';

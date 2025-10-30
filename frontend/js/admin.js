@@ -70,7 +70,7 @@ function initializeAdminPanel() {
 
 // Load products from backend
 function loadProductsFromBackend() {
-    fetch('http://localhost:3000/api/products')
+    fetch('/api/products')
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -151,7 +151,7 @@ function updateProduct(id) {
         featured
     };
     
-    fetch(`http://localhost:3000/api/products/${id}`, {
+    fetch(`/api/products/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -236,7 +236,7 @@ function addProduct() {
     };
     
     // Send to backend
-    fetch('http://localhost:3000/api/products/add', {
+    fetch('/api/products/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -297,7 +297,7 @@ function editProduct(id) {
 function deleteProduct(id) {
     if (confirm('Bu ürünü silmek istediğinizden emin misiniz?')) {
         // Send to backend
-        fetch(`http://localhost:3000/api/products/${id}`, {
+        fetch(`/api/products/${id}`, {
             method: 'DELETE'
         })
         .then(response => {
@@ -390,7 +390,7 @@ function toggleFeatured(id, featured) {
         featured: featured
     };
     
-    fetch(`http://localhost:3000/api/products/${id}`, {
+    fetch(`/api/products/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -417,7 +417,7 @@ function toggleFeatured(id, featured) {
 
 // Load users from backend
 function loadUsers() {
-    fetch('http://localhost:3000/api/users')
+    fetch('/api/users')
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -463,7 +463,7 @@ function displayUsers(users) {
 // Delete user
 function deleteUser(id) {
     if (confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
-        fetch(`http://localhost:3000/api/users/${id}`, {
+        fetch(`/api/users/${id}`, {
             method: 'DELETE'
         })
         .then(response => {

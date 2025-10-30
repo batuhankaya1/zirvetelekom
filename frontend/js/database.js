@@ -47,16 +47,16 @@ function loadTableData(tableName) {
     
     switch(tableName) {
         case 'products':
-            endpoint = 'http://localhost:3000/api/products';
+            endpoint = '/api/products';
             break;
         case 'orders':
-            endpoint = 'http://localhost:3000/api/orders';
+            endpoint = '/api/orders';
             break;
         case 'order_items':
-            endpoint = 'http://localhost:3000/api/order-items';
+            endpoint = '/api/order-items';
             break;
         case 'users':
-            endpoint = 'http://localhost:3000/api/users';
+            endpoint = '/api/users';
             break;
         default:
             console.error('Unknown table:', tableName);
@@ -213,7 +213,7 @@ function runQuery() {
         return;
     }
     
-    fetch('http://localhost:3000/api/database/query', {
+    fetch('/api/database/query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

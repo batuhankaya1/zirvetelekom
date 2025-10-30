@@ -30,7 +30,7 @@ function loadUserInfo() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) return;
     
-    fetch(`http://localhost:3000/api/users/profile/${user.id}`)
+    fetch(`/api/users/profile/${user.id}`)
     .then(response => response.json())
     .then(data => {
         if (data.profile) {
@@ -64,7 +64,7 @@ function updateProfile(e) {
         address: document.getElementById('address').value
     };
     
-    fetch(`http://localhost:3000/api/users/profile/${user.id}`, {
+    fetch(`/api/users/profile/${user.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -99,7 +99,7 @@ function changePassword(e) {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) return;
     
-    fetch(`http://localhost:3000/api/users/change-password/${user.id}`, {
+    fetch(`/api/users/change-password/${user.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update all links
     const links = document.querySelectorAll('a[href*="localhost:3000"]');
     links.forEach(link => {
-        link.href = link.href.replace('http://localhost:3000', '');
+        link.href = link.href.replace('', '');
     });
     
     // Update onclick handlers
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         document.querySelectorAll('a, [onclick]').forEach(el => {
             if (el.href && el.href.includes('localhost:3000')) {
-                el.href = el.href.replace('http://localhost:3000', '');
+                el.href = el.href.replace('', '');
             }
             if (el.onclick && el.onclick.toString().includes('localhost:3000')) {
                 const newOnclick = el.onclick.toString().replace(/http:\/\/localhost:3000/g, '');

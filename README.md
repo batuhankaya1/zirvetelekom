@@ -74,4 +74,4 @@ npm run dev
 - Ana Mavi: #2563eb
 - Koyu Mavi: #1d4ed8
 - Beyaz: #ffffff
-- Gri Tonları: #f8fafc, #e5e7eb
+- Gri Tonları: #f8fafc, #e5e7eb# zirvetelekom

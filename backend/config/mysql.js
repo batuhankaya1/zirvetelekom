@@ -7,6 +7,11 @@ const dbConfig = {
   password: process.env.NODE_ENV === "production" ? "StrongPassword123!" : "",
   database: "zirvetelekom",
   charset: "utf8mb4",
+    host: 'localhost',
+    user: process.env.NODE_ENV === 'production' ? 'root' : 'root',
+    password: process.env.NODE_ENV === 'production' ? '' : '',
+    database: 'zirvetelekom',
+    charset: 'utf8mb4'
 };
 
 // Create connection pool
